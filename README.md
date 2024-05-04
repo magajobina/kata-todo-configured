@@ -1,4 +1,2 @@
-# React template
-# .husky installed + configured
-# eslint  configured
-# prettier configured
+# React шаблон
+с отключённым правилом для типов, плюс тут код из уроков
