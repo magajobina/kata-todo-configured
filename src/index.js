@@ -1,17 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import { createRoot } from "react-dom/client";
+import TodoList from "./components/todo-list";
+import AppHeader from "./components/app-header";
+import SearchPanel from "./components/search-panel";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+function App() {
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  const todoData = [
+    { label: 'Drink some coffee', important: false, id: 1},
+    { label: 'Create React app', important: true, id: 2},
+    { label: 'Покушать', important: false, id: 3},
+  ];
+
+  return (
+    <div>
+      <AppHeader />
+      <SearchPanel />
+      <TodoList todos={todoData} />
+    </div>
+  );
+}
+
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<App />);
