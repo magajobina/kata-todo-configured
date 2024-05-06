@@ -9,8 +9,6 @@ function TaskList({ tasks }) {
     return <Task key={id} task={text} />
   })
 
-  console.log(tasksData);
-
   return (
     <ul className="todo-list">
       {/* <Task task={tasks[0]} /> */}
