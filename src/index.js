@@ -1,22 +1,48 @@
-// import React from "react";
+import React from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import Header from './components/header'
 import TaskList from './components/task-list'
 import Footer from './components/footer'
 
-function App() {
-  const someData = [{ text: 'qweqwe', id: '3223' }, { text: 'dgdfdgg', id: '7788' }, { text: 'hhhhhhhh', id: '56756' }]
+class App extends React.Component {
+  constructor() {
+    super()
 
-  return (
-    <section className="todoapp">
-      <Header />
-      <section className="main">
-        <TaskList tasks={someData} />
-        <Footer />
+    this.state = {
+      todoData: [
+        { text: 'Make awesome App', id: '3223' },
+        { text: 'Boobs 3', id: '7788' },
+        { text: 'Creepers be like: hhhhhhhh boom', id: '56756' },
+      ],
+    }
+
+    this.deleteItem = (id) => {
+      this.setState((prevState) => {
+        const { todoData } = prevState
+
+        const newTodoData = todoData.filter((item) => item.id !== id)
+
+        return {
+          todoData: newTodoData,
+        }
+      })
+    }
+  }
+
+  render() {
+    const { todoData } = this.state
+
+    return (
+      <section className="todoapp">
+        <Header />
+        <section className="main">
+          <TaskList tasks={todoData} onDeleted={this.deleteItem} />
+          <Footer />
+        </section>
       </section>
-    </section>
-  )
+    )
+  }
 }
 
 const container = document.getElementById('root')
