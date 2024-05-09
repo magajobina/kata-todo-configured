@@ -6,13 +6,17 @@ import TaskList from './components/task-list'
 import Footer from './components/footer'
 
 function App() {
-  const someData = [{ text: 'qweqwe', id: '3223' }, { text: 'dgdfdgg', id: '7788' }, { text: 'hhhhhhhh', id: '56756' }]
+  const todoData = [
+    { text: 'Make awesome App', id: '3223' },
+    { text: 'Boobs 3', id: '7788' },
+    { text: 'Creepers be like: hhhhhhhh boom', id: '56756' },
+  ]
 
   return (
     <section className="todoapp">
       <Header />
       <section className="main">
-        <TaskList tasks={someData} />
+        <TaskList tasks={todoData} />
         <Footer />
       </section>
     </section>
