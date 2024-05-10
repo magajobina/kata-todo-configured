@@ -1,7 +1,7 @@
 import Task from '../task'
 import './TaskList.css'
 
-function TaskList({ tasks, onDeleted }) {
+export default function TaskList({ tasks, onDeleted }) {
   const tasksData = tasks.map((item) => {
     const { text, id } = item
 
@@ -10,5 +10,3 @@ function TaskList({ tasks, onDeleted }) {
 
   return <ul className="todo-list">{tasksData}</ul>
 }
-
-export default TaskList
