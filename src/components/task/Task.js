@@ -1,46 +1,23 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import './Task.css'
 
 const dateDistance = formatDistanceToNow(new Date(2024, 4, 5), { includeSeconds: true })
 
-class Task extends React.Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    isDone: false,
-  }
-
-  // componentDidMount() {
-  //   console.log('123')
-  // }
-
-  // componentWillUnmount() {
-  //   console.log('qwe')
-  // }
-
-  onToggleClick = () => {
-    this.setState(({ isDone }) => ({
-      // в коллбек-функцию первым аргументом АВТОМАТОМ прилетает prev state, и мы его деструктурировали.
-      isDone: !isDone,
-    }))
-  }
+export default class Task extends React.Component {
 
   render() {
-    const { task, onDeleted } = this.props
-    const { isDone } = this.state
+    const { task, onDeleted, onToggleDone, isDone } = this.props
 
     const classNames = isDone ? 'completed' : ''
+
+    const defaultChecked  = isDone ? 'checked' : ''
 
     return (
       <li className={classNames}>
         <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            onClick={() => {
-              this.onToggleClick()
-            }}
-          />
+          <input className="toggle" type="checkbox" defaultChecked={defaultChecked} onClick={onToggleDone} />
           <article>
             <span className="description">{task}</span>
             <span className="created">{dateDistance}</span>
@@ -52,5 +29,3 @@ class Task extends React.Component {
     )
   }
 }
-
-export default Task
