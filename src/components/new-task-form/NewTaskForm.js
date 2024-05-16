@@ -19,7 +19,7 @@ export default class NewTaskForm extends React.Component {
     const { onItemAdded } = this.props
 
     if (e.key === 'Enter' && e.target.value !== '' && e.target.value !== ' ') {
-      onItemAdded(e)
+      onItemAdded(e, new Date())
 
       this.setState({
         inputText: ''

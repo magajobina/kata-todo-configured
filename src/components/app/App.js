@@ -1,3 +1,7 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-unused-class-component-methods */
 import React from 'react'
 import Header from '../header'
 import TaskList from '../task-list'
@@ -9,11 +13,29 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
 
-    // eslint-disable-next-line no-plusplus
-    this.createTodoItem = (label) => ({ label, id: this.maxId++, isDone: false })
+    this.getRandomId = () => `_${Math.random().toString(36).slice(2, 11)}`
+
+    this.createTodoItem = (label, timeStamp) => ({
+      label,
+      id: this.getRandomId(),
+      isDone: false,
+      timeStamp,
+    })
+
+    this.getDataFromLocalStorage = () => {
+      if (!localStorage.getItem('tasks'))
+        return []
+      const parseResult = JSON.parse(localStorage.getItem('tasks'))
+      const resolvedTimeArr = parseResult.map((item) => ({
+        ...item,
+        timeStamp: new Date(item.timeStamp),
+      }))
+
+      return resolvedTimeArr
+    }
 
     this.state = {
-      todoData: [this.createTodoItem('Make awesome App'), this.createTodoItem('Create react boobs app')],
+      todoData: this.getDataFromLocalStorage(),
       activeFilter: 'all',
     }
 
@@ -24,9 +46,9 @@ export default class App extends React.Component {
         return { todoData: newTodoData }
       })
     }
-    this.addItem = (event) => {
+    this.addItem = (event, timeStamp) => {
       this.setState(({ todoData }) => {
-        const newItem = this.createTodoItem(event.target.value)
+        const newItem = this.createTodoItem(event.target.value, timeStamp)
         const newTodoData = [...todoData, newItem]
 
         return { todoData: newTodoData }
@@ -57,11 +79,30 @@ export default class App extends React.Component {
         return { todoData: undoneItems }
       })
     }
+    this.onEdit = (id, label) => {
+      this.setState(({ todoData }) => {
+        const newTodoData = todoData.map((item) => {
+          if (id === item.id) {
+            return { ...item, label }
+          }
+
+          return item
+        })
+
+        return { todoData: newTodoData }
+      })
+
+      console.log(id, label);
+    }
     this.getActiveFilteredData = (todoData, activeFilter) => {
       if (activeFilter === 'all') return todoData
       if (activeFilter === 'active') return todoData.filter((item) => !item.isDone)
       if (activeFilter === 'completed') return todoData.filter((item) => item.isDone)
       return todoData
+    }
+
+    this.componentDidUpdate = (prevProps, prevState) => {
+      localStorage.setItem('tasks', JSON.stringify(this.state.todoData))
     }
   }
 
@@ -78,6 +119,7 @@ export default class App extends React.Component {
           <TaskList
             tasks={this.getActiveFilteredData(todoData, activeFilter)}
             onDeleted={this.deleteItem}
+            onEdit={this.onEdit}
             onToggleDone={this.onToggleDone}
           />
           <Footer
