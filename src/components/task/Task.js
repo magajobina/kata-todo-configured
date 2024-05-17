@@ -55,8 +55,8 @@ export default class Task extends React.Component {
     const { isEditing, inputText, timeDistance } = this.state
 
     const liClassForm = () => {
-      if (isDone) return 'completed'
       if (isEditing) return 'editing'
+      if (isDone) return 'completed'
       return ''
     }
 
