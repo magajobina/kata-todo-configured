@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import TasksFilter from '../tasks-filter'
 import './Footer.css'
 
-function Footer({ tasksLeft, onFilter, onClearCompleted }) {
+export default function Footer({ tasksLeft, onFilter, onClearCompleted }) {
   return (
     <footer className="footer">
       <span className="todo-count">{tasksLeft} items left</span>
@@ -13,4 +14,8 @@ function Footer({ tasksLeft, onFilter, onClearCompleted }) {
   )
 }
 
-export default Footer
+Footer.propTypes = {
+  tasksLeft: PropTypes.number.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  onClearCompleted: PropTypes.func.isRequired,
+}

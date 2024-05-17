@@ -1,35 +1,18 @@
-/* eslint-disable react/no-unused-class-component-methods */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/state-in-constructor */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/static-property-placement */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import PropTypes from 'prop-types' // ES6
+import PropTypes from 'prop-types'
 import './Task.css'
-import { isEditable } from '@testing-library/user-event/dist/utils'
-
-// const dateDistance = formatDistanceToNow(new Date(2024, 4, 13), { includeSeconds: true })
-// const dateDistance = formatDistanceToNow(new Date(), { includeSeconds: true })
 
 export default class Task extends React.Component {
-  static defaultProps = {
-    isDone: true,
-  }
-
-  static propTypes = {
-    isDone: PropTypes.bool,
-  }
-
   constructor(props) {
     super(props)
 
+    const { timeStamp, task } = props
+
     this.state = {
-      timeDistance: props.timeStamp,
+      timeDistance: formatDistanceToNow(timeStamp, { includeSeconds: true }),
       isEditing: false,
-      inputText: this.props.task,
+      inputText: task,
     }
     this.onInputChange = (e) => {
       this.setState({
@@ -48,12 +31,11 @@ export default class Task extends React.Component {
       }
     }
     this.tick = () => {
-      const { timeStamp } = this.props
       this.setState({
         timeDistance: formatDistanceToNow(timeStamp, { includeSeconds: true }),
       })
     }
-    this.editBtnHandler = (e) => {
+    this.editBtnHandler = () => {
       this.setState({
         isEditing: true,
       })
@@ -69,8 +51,8 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { task, onDeleted, onToggleDone, isDone, timeStamp } = this.props
-    const { isEditing, inputText } = this.state
+    const { task, onDeleted, onToggleDone, isDone } = this.props
+    const { isEditing, inputText, timeDistance } = this.state
 
     const liClassForm = () => {
       if (isDone) return 'completed'
@@ -79,8 +61,6 @@ export default class Task extends React.Component {
     }
 
     const defaultChecked = isDone ? 'checked' : ''
-
-    const dateDistance = formatDistanceToNow(timeStamp, { includeSeconds: true })
 
     const editForm = (
       <input
@@ -98,7 +78,7 @@ export default class Task extends React.Component {
           <input className="toggle" type="checkbox" defaultChecked={defaultChecked} onClick={onToggleDone} />
           <article>
             <span className="description">{task}</span>
-            <span className="created">{dateDistance} ago</span>
+            <span className="created">{timeDistance} ago</span>
           </article>
           <button
             type="button"
@@ -113,4 +93,17 @@ export default class Task extends React.Component {
       </li>
     )
   }
+}
+
+Task.defaultProps = {
+  isDone: false,
+}
+
+Task.propTypes = {
+  task: PropTypes.string.isRequired,
+  onDeleted: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
+  isDone: PropTypes.bool,
+  timeStamp: PropTypes.instanceOf(Date).isRequired,
 }

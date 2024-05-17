@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
+import PropTypes from 'prop-types'
 import Task from '../task'
 import './TaskList.css'
 
-function TaskList({ tasks, onDeleted, onToggleDone, onEdit }) {
+export default function TaskList({ tasks, onDeleted, onToggleDone, onEdit }) {
   const tasksData = tasks.map((item) => {
     const { label, id, isDone, timeStamp } = item
 
@@ -28,4 +28,17 @@ function TaskList({ tasks, onDeleted, onToggleDone, onEdit }) {
   return <ul className="todo-list">{tasksData}</ul>
 }
 
-export default TaskList
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      isDone: PropTypes.bool.isRequired,
+      timeStamp: PropTypes.instanceOf(Date).isRequired,
+    })
+  ).isRequired,
+
+  onDeleted: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+}

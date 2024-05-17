@@ -1,15 +1,9 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unused-class-component-methods */
 import React from 'react'
 import Header from '../header'
 import TaskList from '../task-list'
 import Footer from '../footer'
 
 export default class App extends React.Component {
-  maxId = 100
-
   constructor(props) {
     super(props)
 
@@ -23,8 +17,7 @@ export default class App extends React.Component {
     })
 
     this.getDataFromLocalStorage = () => {
-      if (!localStorage.getItem('tasks'))
-        return []
+      if (!localStorage.getItem('tasks')) return []
       const parseResult = JSON.parse(localStorage.getItem('tasks'))
       const resolvedTimeArr = parseResult.map((item) => ({
         ...item,
@@ -91,8 +84,6 @@ export default class App extends React.Component {
 
         return { todoData: newTodoData }
       })
-
-      console.log(id, label);
     }
     this.getActiveFilteredData = (todoData, activeFilter) => {
       if (activeFilter === 'all') return todoData
@@ -101,8 +92,9 @@ export default class App extends React.Component {
       return todoData
     }
 
-    this.componentDidUpdate = (prevProps, prevState) => {
-      localStorage.setItem('tasks', JSON.stringify(this.state.todoData))
+    this.componentDidUpdate = () => {
+      const { todoData } = this.state
+      localStorage.setItem('tasks', JSON.stringify(todoData))
     }
   }
 
@@ -119,8 +111,8 @@ export default class App extends React.Component {
           <TaskList
             tasks={this.getActiveFilteredData(todoData, activeFilter)}
             onDeleted={this.deleteItem}
-            onEdit={this.onEdit}
             onToggleDone={this.onToggleDone}
+            onEdit={this.onEdit}
           />
           <Footer
             tasksLeft={undoneItems.length}

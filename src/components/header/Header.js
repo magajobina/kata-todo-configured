@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import NewTaskForm from '../new-task-form'
 import './Header.css'
 
-function Header({ onItemAdded }) {
+export default function Header({ onItemAdded }) {
   return (
     <header className="header">
       <h1>todos</h1>
@@ -9,5 +10,6 @@ function Header({ onItemAdded }) {
     </header>
   )
 }
-
-export default Header
+Header.propTypes = {
+  onItemAdded: PropTypes.func.isRequired,
+}
