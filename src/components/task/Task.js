@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -77,8 +78,13 @@ export default class Task extends React.Component {
         <div className="view">
           <input className="toggle" type="checkbox" defaultChecked={defaultChecked} onClick={onToggleDone} />
           <article>
-            <span className="description">{task}</span>
-            <span className="created">{timeDistance} ago</span>
+            <span className="title">{task}</span>
+            <span className="description">
+              <button className="icon icon-play" />
+              <button className="icon icon-pause" />
+              12:25
+            </span>
+            <span className="description">{timeDistance} ago</span>
           </article>
           <button
             type="button"

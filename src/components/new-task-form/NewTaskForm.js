@@ -23,7 +23,7 @@ export default class NewTaskForm extends React.Component {
       onItemAdded(e, new Date())
 
       this.setState({
-        inputText: ''
+        inputText: '',
       })
     }
   }
@@ -32,13 +32,17 @@ export default class NewTaskForm extends React.Component {
     const { inputText } = this.state
 
     return (
-      <input
-        className="new-todo"
-        value={inputText}
-        placeholder="What needs to be done?"
-        onChange={this.onInputChange}
-        onKeyDown={this.onEnterHandler}
-      />
+      <form className="new-todo-form">
+        <input
+          className="new-todo"
+          value={inputText}
+          placeholder="Task"
+          onChange={this.onInputChange}
+          onKeyDown={this.onEnterHandler}
+        />
+        <input className="new-todo-form__timer" placeholder="Min" />
+        <input className="new-todo-form__timer" placeholder="Sec" />
+      </form>
     )
   }
 }
