@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types'
 import Task from '../task'
 import './TaskList.css'
@@ -50,4 +48,6 @@ TaskList.propTypes = {
   onDeleted: PropTypes.func.isRequired,
   onToggleDone: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onTimerPlay: PropTypes.func.isRequired,
+  onTimerPause: PropTypes.func.isRequired,
 }

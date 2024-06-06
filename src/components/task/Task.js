@@ -1,18 +1,9 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-plusplus */
-/* eslint-disable prefer-template */
-/* eslint-disable react/no-unused-class-component-methods */
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/button-has-type */
-import { format, formatDistanceToNow } from 'date-fns'
+
+import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import PropTypes from 'prop-types'
 import './Task.css'
-
-let countdown
-let isPaused = false
-let remainingTime = 0
 
 export default class Task extends React.Component {
   constructor(props) {
@@ -90,8 +81,8 @@ export default class Task extends React.Component {
           <article>
             <span className="title">{task}</span>
             <span className="description">
-              <button onClick={onTimerPlay} className="icon icon-play" />
-              <button onClick={onTimerPause} className="icon icon-pause" />
+              <button onClick={onTimerPlay} className="icon icon-play" type="button" />
+              <button onClick={onTimerPause} className="icon icon-pause" type="button" />
               {displayTime}
             </span>
             <span className="description">{timeDistance} ago</span>
@@ -122,4 +113,7 @@ Task.propTypes = {
   onToggleDone: PropTypes.func.isRequired,
   isDone: PropTypes.bool,
   timeStamp: PropTypes.instanceOf(Date).isRequired,
+  onTimerPlay: PropTypes.func.isRequired,
+  onTimerPause: PropTypes.func.isRequired,
+  displayTime: PropTypes.string.isRequired,
 }
