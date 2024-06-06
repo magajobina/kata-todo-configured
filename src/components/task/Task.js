@@ -1,8 +1,18 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-template */
+/* eslint-disable react/no-unused-class-component-methods */
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
-import { formatDistanceToNow } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import PropTypes from 'prop-types'
 import './Task.css'
+
+let countdown
+let isPaused = false
+let remainingTime = 0
 
 export default class Task extends React.Component {
   constructor(props) {
@@ -52,7 +62,7 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { task, onDeleted, onToggleDone, isDone } = this.props
+    const { task, onDeleted, onToggleDone, isDone, onTimerPlay, onTimerPause, displayTime } = this.props
     const { isEditing, inputText, timeDistance } = this.state
 
     const liClassForm = () => {
@@ -80,9 +90,9 @@ export default class Task extends React.Component {
           <article>
             <span className="title">{task}</span>
             <span className="description">
-              <button className="icon icon-play" />
-              <button className="icon icon-pause" />
-              12:25
+              <button onClick={onTimerPlay} className="icon icon-play" />
+              <button onClick={onTimerPause} className="icon icon-pause" />
+              {displayTime}
             </span>
             <span className="description">{timeDistance} ago</span>
           </article>

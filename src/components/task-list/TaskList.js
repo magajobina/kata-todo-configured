@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types'
 import Task from '../task'
 import './TaskList.css'
 
-export default function TaskList({ tasks, onDeleted, onToggleDone, onEdit }) {
+export default function TaskList({ tasks, onDeleted, onToggleDone, onEdit, onTimerPlay, onTimerPause }) {
   const tasksData = tasks.map((item) => {
-    const { label, id, isDone, timeStamp } = item
+    const { label, id, isDone, timeStamp, displayTime } = item
 
     return (
       <Task
@@ -21,6 +23,13 @@ export default function TaskList({ tasks, onDeleted, onToggleDone, onEdit }) {
         }}
         isDone={isDone}
         timeStamp={timeStamp}
+        displayTime={displayTime}
+        onTimerPlay={() => {
+          onTimerPlay(id)
+        }}
+        onTimerPause={() => {
+          onTimerPause(id)
+        }}
       />
     )
   })

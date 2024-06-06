@@ -178,3 +178,14 @@
   font-size: 13px;
   color: gray;
 }
+/* Убираем стрелочки в WebKit-браузерах */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Убираем стрелочки в Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
