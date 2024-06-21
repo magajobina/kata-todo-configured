@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Header from '../header'
 import TaskList from '../task-list'
 import Footer from '../footer'
 
-function App() {
+export default function App() {
   const getRandomId = () => `_${Math.random().toString(36).slice(2, 11)}`
   const getSeparatedTime = (time) => {
     if (time <= 0) {
@@ -70,7 +69,7 @@ function App() {
       })
     })
   }, [])
-  
+
   const onToggleDone = useCallback((id) => {
     setTodoData((prevTodoData) => {
       const newTodoData = prevTodoData.map((item) => {
@@ -120,12 +119,10 @@ function App() {
 
       const timerID = setInterval(() => {
         setTodoData((prevTodoData2) => {
-          
           if (--totalTime < 0) {
             totalTime = 0
             clearInterval(timerID)
           }
-          console.log('Интервал --', totalTime);
 
           const newTodoData = prevTodoData2.map((item) => {
             if (item.id === id) {
@@ -139,8 +136,6 @@ function App() {
           })
           return newTodoData
         })
-
-
       }, 1000)
 
       return prevTodoData.map((item) => {
@@ -175,5 +170,3 @@ function App() {
     </section>
   )
 }
-
-export default App

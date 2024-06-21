@@ -1,69 +1,65 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-plusplus */
-
-import { formatDistanceToNow } from 'date-fns';
-import React, { useState, useEffect , useLayoutEffect} from 'react';
-import PropTypes from 'prop-types';
-import './Task.css';
+import { formatDistanceToNow } from 'date-fns'
+import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import './Task.css'
 
 export default function Task({
   task,
   onDeleted,
   onToggleDone,
-  isDone,
+  isDone = false,
   onTimerPlay,
   onTimerPause,
   displayTime,
   timeStamp,
   onEdit,
 }) {
-  const [timeDistance, setTimeDistance] = useState(formatDistanceToNow(timeStamp, { includeSeconds: true }));
-  const [isEditing, setIsEditing] = useState(false);
-  const [inputText, setInputText] = useState(task);
+  const [timeDistance, setTimeDistance] = useState(formatDistanceToNow(timeStamp, { includeSeconds: true }))
+  const [isEditing, setIsEditing] = useState(false)
+  const [inputText, setInputText] = useState(task)
 
   const onInputChange = (e) => {
-    setInputText(e.target.value);
-  };
+    setInputText(e.target.value)
+  }
 
   const onEnterHandler = (e) => {
     if (e.key === 'Enter' && e.target.value.trim() !== '') {
-      onEdit(e.target.value);
-      setIsEditing(false);
+      onEdit(e.target.value)
+      setIsEditing(false)
     }
-  };
+  }
 
   const tick = () => {
     // console.log('tick');
-    setTimeDistance(formatDistanceToNow(timeStamp, { includeSeconds: true }));
-  };
+    setTimeDistance(formatDistanceToNow(timeStamp, { includeSeconds: true }))
+  }
 
   const editBtnHandler = () => {
-    setIsEditing(true);
-  };
+    setIsEditing(true)
+  }
 
   useEffect(() => {
-    const timerID = setInterval(() => tick(), 1000);
+    const timerID = setInterval(() => tick(), 1000)
 
-    console.log('Сработал эффект таймера в Task');
+    // console.log('Сработал эффект таймера в Task')
 
     return () => {
-      clearInterval(timerID);
-      console.log('Сработала очистка эффекта таймера в Task');
-    };
-  }, []);
+      clearInterval(timerID)
+      // console.log('Сработала очистка эффекта таймера в Task')
+    }
+  }, [])
 
   const liClassForm = () => {
-    if (isEditing) return 'editing';
-    if (isDone) return 'completed';
-    return '';
-  };
+    if (isEditing) return 'editing'
+    if (isDone) return 'completed'
+    return ''
+  }
 
-  const defaultChecked = isDone ? 'checked' : '';
+  const defaultChecked = isDone ? 'checked' : ''
 
   const editForm = (
     <input type="text" className="edit" onChange={onInputChange} onKeyDown={onEnterHandler} value={inputText} />
-  );
+  )
 
   return (
     <li className={liClassForm()}>
@@ -82,28 +78,24 @@ export default function Task({
           type="button"
           className="icon icon-edit"
           onClick={(e) => {
-            editBtnHandler(e);
+            editBtnHandler(e)
           }}
         />
         <button type="button" className="icon icon-destroy" onClick={onDeleted} />
       </div>
       {isEditing && editForm}
     </li>
-  );
+  )
 }
 
-// Task.defaultProps = {
-//   isDone: false,
-// }
-
-// Task.propTypes = {
-//   task: PropTypes.string.isRequired,
-//   onDeleted: PropTypes.func.isRequired,
-//   onEdit: PropTypes.func.isRequired,
-//   onToggleDone: PropTypes.func.isRequired,
-//   isDone: PropTypes.bool,
-//   timeStamp: PropTypes.instanceOf(Date).isRequired,
-//   onTimerPlay: PropTypes.func.isRequired,
-//   onTimerPause: PropTypes.func.isRequired,
-//   displayTime: PropTypes.string.isRequired,
-// }
+Task.propTypes = {
+  task: PropTypes.string.isRequired,
+  onDeleted: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
+  isDone: PropTypes.bool.isRequired,
+  timeStamp: PropTypes.instanceOf(Date).isRequired,
+  onTimerPlay: PropTypes.func.isRequired,
+  onTimerPause: PropTypes.func.isRequired,
+  displayTime: PropTypes.string.isRequired,
+}
