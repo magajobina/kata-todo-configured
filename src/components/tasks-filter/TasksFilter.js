@@ -55,5 +55,5 @@ export default class TasksFilter extends React.Component {
 }
 
 TasksFilter.propTypes = {
-  onFilter: PropTypes.func.isRequired, 
+  onFilter: PropTypes.func.isRequired,
 }

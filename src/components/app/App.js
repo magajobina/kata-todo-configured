@@ -75,6 +75,7 @@ export default class App extends React.Component {
 
         return { todoData: newTodoData }
       })
+      this.onTimerPause(id)
     }
     this.onToggleFilter = (filterToOn) => {
       this.setState({

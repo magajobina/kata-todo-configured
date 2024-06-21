@@ -1,22 +1,8 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable prefer-template */
-/* eslint-disable prefer-const */
-/* eslint-disable react/no-unused-class-component-methods */
-/* eslint-disable consistent-return */
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
 import React from 'react'
 import PropTypes from 'prop-types'
 import './NewTaskForm.css'
 
 export default class NewTaskForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      // inputText: '',
-    }
-  }
-
   submitHandler = (e) => {
     e.preventDefault()
     const mins = e.target[1].value !== '' ? e.target[1].value : 0 // если пусто то ноль
@@ -33,7 +19,6 @@ export default class NewTaskForm extends React.Component {
     const { onItemAdded } = this.props
 
     if (textInput.value !== '' && textInput.value !== ' ') {
-      console.log(timerTime);
       onItemAdded(textInput.value, new Date(), timerTime)
       return true
     }
