@@ -1,5 +1,4 @@
 # React проект ToDo
 Классовые компоненты
-Ссылка на vercel: https://kata-todo-configured.vercel.app/
 
-Ссылка на gh-pages с Таймером и сохранением в Local Storage: https://magajobina.github.io/kata-todo-configured/
+Ссылка на vercel тудушка с таймером: https://kata-todo-configured-git-tasktimer-alberts-projects-ee30f2a7.vercel.app/

@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import React from 'react'
 import Header from '../header'
 import TaskList from '../task-list'
@@ -8,12 +9,26 @@ export default class App extends React.Component {
     super(props)
 
     this.getRandomId = () => `_${Math.random().toString(36).slice(2, 11)}`
+    this.getSeparatedTime = (time) => {
+      if (time <= 0) {
+        return '00:00'
+      }
+      let mins = parseInt((time % 3600) / 60, 10)
+      let secs = parseInt(time % 60, 10)
 
-    this.createTodoItem = (label, timeStamp) => ({
+      mins = mins < 10 ? `0${mins}` : mins
+      secs = secs < 10 ? `0${secs}` : secs
+
+      return `${mins}:${secs}`
+    }
+    this.createTodoItem = (label, timeStamp, timerTime) => ({
       label,
       id: this.getRandomId(),
       isDone: false,
       timeStamp,
+      timerID: undefined,
+      totalTime: +timerTime[0] * 60 + +timerTime[1],
+      displayTime: this.getSeparatedTime(+timerTime[0] * 60 + +timerTime[1]),
     })
 
     this.getDataFromLocalStorage = () => {
@@ -34,14 +49,15 @@ export default class App extends React.Component {
 
     this.deleteItem = (id) => {
       this.setState(({ todoData }) => {
+        clearInterval(todoData.find((item) => item.id === id).timerID)
         const newTodoData = todoData.filter((item) => item.id !== id)
 
         return { todoData: newTodoData }
       })
     }
-    this.addItem = (event, timeStamp) => {
+    this.addItem = (value, timeStamp, timerData) => {
       this.setState(({ todoData }) => {
-        const newItem = this.createTodoItem(event.target.value, timeStamp)
+        const newItem = this.createTodoItem(value, timeStamp, timerData)
         const newTodoData = [...todoData, newItem]
 
         return { todoData: newTodoData }
@@ -91,6 +107,62 @@ export default class App extends React.Component {
       if (activeFilter === 'completed') return todoData.filter((item) => item.isDone)
       return todoData
     }
+    this.onTimerPlay = (id) => {
+      const { todoData } = this.state
+      const currentTodo = todoData.find((item) => item.id === id)
+      let { totalTime } = currentTodo
+
+      clearInterval(currentTodo.timerID)
+
+      const timerID = setInterval(() => {
+        this.setState(({ todoData: prevTodoData }) => {
+          const newTodoData = prevTodoData.map((item) => {
+            if (item.id === id) {
+              return {
+                ...item,
+                displayTime: this.getSeparatedTime(totalTime),
+                totalTime,
+              }
+            }
+            return item
+          })
+          return { todoData: newTodoData }
+        })
+
+        if (--totalTime < 0) {
+          totalTime = 0
+          clearInterval(timerID)
+        }
+      }, 1000)
+
+      this.setState(({ todoData: prevTodoData }) => {
+        const newTodoData = prevTodoData.map((item) => {
+          if (item.id === id) {
+            currentTodo.timerID = timerID
+            return currentTodo
+          }
+          return item
+        })
+        return { todoData: newTodoData }
+      })
+    }
+    this.onTimerPause = (id) => {
+      const { todoData } = this.state
+      const currentTodo = todoData.find((item) => item.id === id)
+
+      clearInterval(currentTodo.timerID)
+
+      currentTodo.timerID = undefined
+
+      this.setState(() => {
+        todoData.map((item) => {
+          if (item.id === id) {
+            return currentTodo
+          }
+          return item
+        })
+      })
+    }
 
     this.componentDidUpdate = () => {
       const { todoData } = this.state
@@ -113,6 +185,8 @@ export default class App extends React.Component {
             onDeleted={this.deleteItem}
             onToggleDone={this.onToggleDone}
             onEdit={this.onEdit}
+            onTimerPlay={this.onTimerPlay}
+            onTimerPause={this.onTimerPause}
           />
           <Footer
             tasksLeft={undoneItems.length}

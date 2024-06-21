@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+
 import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -51,7 +53,7 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { task, onDeleted, onToggleDone, isDone } = this.props
+    const { task, onDeleted, onToggleDone, isDone, onTimerPlay, onTimerPause, displayTime } = this.props
     const { isEditing, inputText, timeDistance } = this.state
 
     const liClassForm = () => {
@@ -77,8 +79,13 @@ export default class Task extends React.Component {
         <div className="view">
           <input className="toggle" type="checkbox" defaultChecked={defaultChecked} onClick={onToggleDone} />
           <article>
-            <span className="description">{task}</span>
-            <span className="created">{timeDistance} ago</span>
+            <span className="title">{task}</span>
+            <span className="description">
+              <button onClick={onTimerPlay} className="icon icon-play" type="button" />
+              <button onClick={onTimerPause} className="icon icon-pause" type="button" />
+              {displayTime}
+            </span>
+            <span className="description">{timeDistance} ago</span>
           </article>
           <button
             type="button"
@@ -106,4 +113,7 @@ Task.propTypes = {
   onToggleDone: PropTypes.func.isRequired,
   isDone: PropTypes.bool,
   timeStamp: PropTypes.instanceOf(Date).isRequired,
+  onTimerPlay: PropTypes.func.isRequired,
+  onTimerPause: PropTypes.func.isRequired,
+  displayTime: PropTypes.string.isRequired,
 }
