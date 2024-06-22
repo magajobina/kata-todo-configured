@@ -1,4 +1,8 @@
 # React проект ToDo
 Классовые компоненты
 
-Ссылка на vercel тудушка с таймером: https://kata-todo-configured-git-tasktimer-alberts-projects-ee30f2a7.vercel.app/
+Ссылка на развернутое приложение на функциональных компонентах
+https://magajobina.github.io/kata-todo-configured/
+
+Ссылка на развернутое приложение на классовых компонентах на Vercel
+https://kata-todo-configured-alberts-projects-ee30f2a7.vercel.app/
