@@ -1,11 +1,12 @@
 /* eslint-disable no-plusplus */
 import { useState, useEffect, useCallback } from 'react'
+import { nanoid } from 'nanoid'
 import Header from '../header'
 import TaskList from '../task-list'
 import Footer from '../footer'
 
 export default function App() {
-  const getRandomId = () => `_${Math.random().toString(36).slice(2, 11)}`
+  const getRandomId = () => nanoid()
   const getSeparatedTime = (time) => {
     if (time <= 0) {
       return '00:00'
